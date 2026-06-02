@@ -1,5 +1,5 @@
 export function formatDate(date: string) {
-  return new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }).format(new Date(`${date}T00:00:00`));
+  return new Intl.DateTimeFormat('es-MX', { dateStyle: 'medium' }).format(new Date(`${date}T00:00:00`));
 }
 
 export function formatTime(time: string) {

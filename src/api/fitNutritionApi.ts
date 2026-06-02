@@ -16,7 +16,7 @@ function normalizeLoginResponse(payload: any): LoginResponse {
   const usuario = payload?.usuario ?? payload?.user ?? payload?.data?.usuario;
 
   if (!token || !usuario?.idUsuario) {
-    throw new Error('Login response did not include token and usuario.idUsuario.');
+    throw new Error('La respuesta de inicio de sesión no incluyó token y usuario.idUsuario.');
   }
 
   return { token, usuario };

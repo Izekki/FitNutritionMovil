@@ -24,7 +24,7 @@ export function usePatientProfile() {
       setData(result);
       setPatient(result);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Could not load patient data.');
+      setError(err instanceof Error ? err.message : 'No se pudieron cargar los datos del paciente.');
     } finally {
       setLoading(false);
     }

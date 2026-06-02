@@ -23,7 +23,7 @@ export function CurrentDietScreen() {
       const result = await getCurrentDiet(patient.idPaciente, token);
       setDiet(result);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Could not load current diet.');
+      setError(err instanceof Error ? err.message : 'No se pudo cargar la dieta actual.');
     }
   }
 
@@ -45,14 +45,14 @@ export function CurrentDietScreen() {
 
   return (
     <ScrollView contentContainerStyle={globalStyles.scrollContent} style={{ backgroundColor: colors.background }}>
-      <InfoRow label="Name" value={diet.nombreDieta} />
-      <InfoRow label="Status" value={diet.estatusEdicion} />
-      <InfoRow label="Assignment Date" value={diet.assignmentDate ? formatDate(diet.assignmentDate) : 'Not available'} />
-      <InfoRow label="Total Calories" value={`${diet.caloriasTotales} kcal`} />
-      <InfoRow label="Objective/Description" value={diet.descripcion} />
-      <InfoRow label="Estimated Duration" value={diet.estimatedDuration} />
-      <InfoRow label="Next Review Date" value={diet.nextReviewDate ? formatDate(diet.nextReviewDate) : 'Not available'} />
-      <InfoRow label="Notes" value={diet.notes} />
+      <InfoRow label="Nombre" value={diet.nombreDieta} />
+      <InfoRow label="Estado" value={diet.estatusEdicion} />
+      <InfoRow label="Fecha de asignación" value={diet.assignmentDate ? formatDate(diet.assignmentDate) : 'No disponible'} />
+      <InfoRow label="Calorías totales" value={`${diet.caloriasTotales} kcal`} />
+      <InfoRow label="Objetivo" value={diet.descripcion} />
+      <InfoRow label="Duración estimada" value={diet.estimatedDuration} />
+      <InfoRow label="Próxima revisión" value={diet.nextReviewDate ? formatDate(diet.nextReviewDate) : 'No disponible'} />
+      <InfoRow label="Observaciones" value={diet.notes} />
     </ScrollView>
   );
 }

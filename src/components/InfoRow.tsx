@@ -11,7 +11,7 @@ export function InfoRow({ label, value }: Props) {
   return (
     <View style={{ marginBottom: 12 }}>
       <Text style={globalStyles.label}>{label}</Text>
-      <Text style={globalStyles.value}>{value ?? 'Not available'}</Text>
+      <Text style={globalStyles.value}>{value ?? 'No disponible'}</Text>
     </View>
   );
 }

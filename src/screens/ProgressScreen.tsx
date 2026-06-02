@@ -14,10 +14,10 @@ export function ProgressScreen({ navigation }: Props) {
     <View style={globalStyles.screen}>
       <View style={globalStyles.centered}>
         <Ionicons name="trending-up-outline" size={64} color={colors.primaryDark} />
-        <Text style={globalStyles.title}>Progress</Text>
+        <Text style={globalStyles.title}>Progreso</Text>
         <View style={{ gap: 12, width: '100%' }}>
-          <AppButton title="Latest Measurement" onPress={() => navigation.navigate('LatestMeasurement')} />
-          <AppButton title="Progress History" onPress={() => navigation.navigate('ProgressHistory')} variant="secondary" />
+          <AppButton title="Última Medición" onPress={() => navigation.navigate('LatestMeasurement')} />
+          <AppButton title="Historial de Progreso" onPress={() => navigation.navigate('ProgressHistory')} variant="secondary" />
         </View>
       </View>
     </View>

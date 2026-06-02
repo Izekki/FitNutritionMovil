@@ -28,7 +28,7 @@ export function AppointmentsScreen({ navigation }: Props) {
       const result = await getAppointments(patient.idPaciente, token);
       setAppointments(result);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Could not load appointments.');
+      setError(err instanceof Error ? err.message : 'No se pudieron cargar las citas.');
     }
   }
 
@@ -68,8 +68,8 @@ export function AppointmentsScreen({ navigation }: Props) {
         onPress={() => navigation.navigate('AppointmentDetail', { appointmentId: appointment.idCita })}
         style={({ pressed }) => [globalStyles.card, pressed && { opacity: 0.76 }]}
       >
-        <Text style={globalStyles.value}>{formatDate(appointment.fecha)} at {formatTime(appointment.hora)}</Text>
-        <Text style={globalStyles.muted}>{appointment.estado} with {appointment.doctorName ?? patient?.medico?.nombreMedico ?? 'Doctor'}</Text>
+        <Text style={globalStyles.value}>{formatDate(appointment.fecha)} a las {formatTime(appointment.hora)}</Text>
+        <Text style={globalStyles.muted}>{appointment.estado} con {appointment.doctorName ?? patient?.medico?.nombreMedico ?? 'Médico'}</Text>
       </Pressable>
     );
   }
@@ -80,16 +80,16 @@ export function AppointmentsScreen({ navigation }: Props) {
         <Ionicons name="calendar-outline" size={22} color={colors.primaryDark} />
         <TextInput
           onChangeText={setDateFilter}
-          placeholder="Search date, e.g. 2026-06-10"
+          placeholder="Buscador por fechas"
           placeholderTextColor={colors.muted}
           style={[globalStyles.input, { flex: 1, minHeight: 44 }]}
           value={dateFilter}
         />
       </View>
-      <Text style={globalStyles.sectionTitle}>Scheduled Appointments</Text>
-      {scheduled.length ? scheduled.map(renderCard) : <Text style={globalStyles.muted}>No scheduled appointments.</Text>}
-      <Text style={globalStyles.sectionTitle}>Appointment History</Text>
-      {history.length ? history.map(renderCard) : <Text style={globalStyles.muted}>No appointment history.</Text>}
+      <Text style={globalStyles.sectionTitle}>Citas programadas</Text>
+      {scheduled.length ? scheduled.map(renderCard) : <Text style={globalStyles.muted}>No hay citas programadas.</Text>}
+      <Text style={globalStyles.sectionTitle}>Historial de citas</Text>
+      {history.length ? history.map(renderCard) : <Text style={globalStyles.muted}>No hay historial de citas.</Text>}
     </ScrollView>
   );
 }

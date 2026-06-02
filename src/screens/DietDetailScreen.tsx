@@ -27,7 +27,7 @@ export function DietDetailScreen({ route }: Props) {
         const result = await getDietDetail(route.params.dietId, token);
         setDiet(result);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Could not load diet detail.');
+        setError(err instanceof Error ? err.message : 'No se pudo cargar el detalle de la dieta.');
       }
     }
   }
@@ -55,19 +55,19 @@ export function DietDetailScreen({ route }: Props) {
   return (
     <ScrollView contentContainerStyle={globalStyles.scrollContent} style={{ backgroundColor: colors.background }}>
       <View style={globalStyles.card}>
-        <InfoRow label="Name" value={diet.nombreDieta} />
-        <InfoRow label="Total Calories" value={`${diet.caloriasTotales} kcal`} />
-        <InfoRow label="Description" value={diet.descripcion} />
+        <InfoRow label="Nombre de la dieta" value={diet.nombreDieta} />
+        <InfoRow label="Total de kcal" value={`${diet.caloriasTotales} kcal`} />
+        <InfoRow label="Observaciones" value={diet.descripcion} />
       </View>
 
-      <Text style={globalStyles.sectionTitle}>Foods</Text>
+      <Text style={globalStyles.sectionTitle}>Alimentos</Text>
       {mealOrder.map((meal) => {
         const foods = groupedFoods[meal] ?? [];
         if (!foods.length) return null;
 
         return (
           <View key={meal} style={globalStyles.card}>
-            <Text style={[globalStyles.value, { marginBottom: 10 }]}>{meal}</Text>
+            <Text style={[globalStyles.value, { marginBottom: 10 }]}>{meal === 'Breakfast' ? 'Desayuno' : meal === 'Mid-day' ? 'Media mañana' : meal === 'Lunch' ? 'Comida' : 'Cena'}</Text>
             {foods.map((food) => (
               <View key={`${meal}-${food.idAlimento}`} style={{ marginBottom: 10 }}>
                 <Text style={globalStyles.body}>{food.nombreAlimento}</Text>

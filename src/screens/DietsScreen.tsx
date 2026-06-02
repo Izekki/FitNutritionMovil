@@ -14,10 +14,10 @@ export function DietsScreen({ navigation }: Props) {
     <View style={globalStyles.screen}>
       <View style={globalStyles.centered}>
         <Ionicons name="nutrition-outline" size={64} color={colors.primaryDark} />
-        <Text style={globalStyles.title}>Diets</Text>
+        <Text style={globalStyles.title}>Dietas</Text>
         <View style={{ gap: 12, width: '100%' }}>
-          <AppButton title="Current Diet" onPress={() => navigation.navigate('CurrentDiet')} />
-          <AppButton title="Diet History" onPress={() => navigation.navigate('DietHistory')} variant="secondary" />
+          <AppButton title="Dieta actual" onPress={() => navigation.navigate('CurrentDiet')} />
+          <AppButton title="Historial de dietas" onPress={() => navigation.navigate('DietHistory')} variant="secondary" />
         </View>
       </View>
     </View>

@@ -25,7 +25,7 @@ export function DietHistoryScreen({ navigation }: Props) {
       const result = await getDietHistory(patient.idPaciente, token);
       setDiets(result);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Could not load diet history.');
+      setError(err instanceof Error ? err.message : 'No se pudo cargar el historial de dietas.');
     }
   }
 

@@ -30,7 +30,7 @@ export function AppointmentDetailScreen({ route }: Props) {
       const result = await getAppointmentById(route.params.appointmentId, token);
       setAppointment(result);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Could not load appointment detail.');
+      setError(err instanceof Error ? err.message : 'No se pudo cargar el detalle de la cita.');
     }
   }
 
@@ -59,11 +59,11 @@ export function AppointmentDetailScreen({ route }: Props) {
     try {
       const updated = await cancelAppointment(appointment, reason, token);
       setAppointment(updated);
-      Alert.alert('Appointment canceled', 'Your cancellation request was registered.');
+      Alert.alert('Cita cancelada', 'Tu solicitud de cancelación fue registrada.');
       setShowCancelForm(false);
       setReason('');
     } catch (err) {
-      Alert.alert('Cancellation failed', err instanceof Error ? err.message : 'Could not cancel appointment.');
+      Alert.alert('Error al cancelar', err instanceof Error ? err.message : 'No se pudo cancelar la cita.');
     } finally {
       setSaving(false);
     }
@@ -72,26 +72,26 @@ export function AppointmentDetailScreen({ route }: Props) {
   return (
     <ScrollView contentContainerStyle={globalStyles.scrollContent} style={{ backgroundColor: colors.background }}>
       <View style={globalStyles.card}>
-        <InfoRow label="Date" value={formatDate(appointment.fecha)} />
-        <InfoRow label="Time" value={formatTime(appointment.hora)} />
-        <InfoRow label="Patient" value={appointment.patientName ?? (patient ? `${patient.nombrePaciente} ${patient.apellidosPaciente}` : 'Patient')} />
-        <InfoRow label="Assigned Doctor" value={appointment.doctorName ?? (patient?.medico ? `${patient.medico.nombreMedico} ${patient.medico.apellidosMedico}` : 'Doctor')} />
-        <InfoRow label="Notes" value={appointment.observaciones} />
+        <InfoRow label="Fecha" value={formatDate(appointment.fecha)} />
+        <InfoRow label="Hora" value={formatTime(appointment.hora)} />
+        <InfoRow label="Paciente" value={appointment.patientName ?? (patient ? `${patient.nombrePaciente} ${patient.apellidosPaciente}` : 'Paciente')} />
+        <InfoRow label="Médico asignado" value={appointment.doctorName ?? (patient?.medico ? `${patient.medico.nombreMedico} ${patient.medico.apellidosMedico}` : 'Médico')} />
+        <InfoRow label="Observaciones" value={appointment.observaciones} />
       </View>
 
       {!cancellationAllowed ? (
-        <Text style={{ color: colors.danger, marginBottom: 12 }}>Cancellation is only available at least 1 hour before the appointment time.</Text>
+        <Text style={{ color: colors.danger, marginBottom: 12 }}>La cancelación solo está disponible al menos 1 hora antes de la cita.</Text>
       ) : null}
 
-      <AppButton disabled={!cancellationAllowed} title="Cancel Appointment" variant="danger" onPress={() => setShowCancelForm(true)} />
+      <AppButton disabled={!cancellationAllowed} title="Cancelar cita" variant="danger" onPress={() => setShowCancelForm(true)} />
 
       {showCancelForm ? (
         <View style={[globalStyles.card, { marginTop: 16 }]}>
-          <Text style={globalStyles.sectionTitle}>Reason for Cancellation</Text>
+          <Text style={globalStyles.sectionTitle}>Motivo de la cancelación</Text>
           <TextInput
             multiline
             onChangeText={setReason}
-            placeholder="Write the reason..."
+            placeholder="Escribe el motivo..."
             placeholderTextColor={colors.muted}
             style={[globalStyles.input, { minHeight: 110, paddingTop: 12, textAlignVertical: 'top' }]}
             value={reason}
@@ -100,7 +100,7 @@ export function AppointmentDetailScreen({ route }: Props) {
             disabled={!reason.trim() || isSaving}
             onPress={handleConfirmCancellation}
             style={{ marginTop: 12 }}
-            title={isSaving ? 'Confirming...' : 'Confirm Cancellation'}
+            title={isSaving ? 'Confirmando...' : 'Confirmar cancelación'}
           />
         </View>
       ) : null}

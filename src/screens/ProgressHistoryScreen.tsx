@@ -22,7 +22,7 @@ export function ProgressHistoryScreen() {
       const result = await getProgressHistory(patient.idPaciente, token);
       setConsultations(result);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Could not load progress history.');
+      setError(err instanceof Error ? err.message : 'No se pudo cargar el historial de progreso.');
     }
   }
 
@@ -47,9 +47,9 @@ export function ProgressHistoryScreen() {
       {consultations.map((consultation) => (
         <View key={consultation.idConsulta} style={globalStyles.card}>
           <Text style={globalStyles.value}>{formatDate(consultation.fecha)}</Text>
-          <Text style={globalStyles.muted}>Weight: {consultation.pesoCapturado} kg</Text>
-          <Text style={globalStyles.muted}>Height: {consultation.tallaCapturada} m</Text>
-          <Text style={globalStyles.muted}>BMI: {consultation.imcCalculado}</Text>
+          <Text style={globalStyles.muted}>Peso: {consultation.pesoCapturado} kg</Text>
+          <Text style={globalStyles.muted}>Estatura: {consultation.tallaCapturada} m</Text>
+          <Text style={globalStyles.muted}>IMC: {consultation.imcCalculado}</Text>
         </View>
       ))}
     </ScrollView>

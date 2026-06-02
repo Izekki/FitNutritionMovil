@@ -13,7 +13,7 @@ export function ErrorState({ message, onRetry }: Props) {
   return (
     <View style={globalStyles.centered}>
       <Text style={{ color: colors.danger, fontSize: 16, fontWeight: '700', textAlign: 'center' }}>{message}</Text>
-      {onRetry ? <AppButton title="Retry" onPress={onRetry} variant="secondary" /> : null}
+      {onRetry ? <AppButton title="Reintentar" onPress={onRetry} variant="secondary" /> : null}
     </View>
   );
 }

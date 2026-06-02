@@ -21,7 +21,7 @@ export function LoginScreen() {
       const response = await login(email, accessCode);
       signIn(response);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Login failed.');
+      setError(err instanceof Error ? err.message : 'Error al iniciar sesión.');
     } finally {
       setLoading(false);
     }
@@ -36,7 +36,7 @@ export function LoginScreen() {
             autoCapitalize="none"
             keyboardType="email-address"
             onChangeText={setEmail}
-            placeholder="Email"
+            placeholder="Correo electrónico"
             placeholderTextColor={colors.muted}
             style={globalStyles.input}
             value={email}
@@ -45,7 +45,7 @@ export function LoginScreen() {
             keyboardType="number-pad"
             maxLength={4}
             onChangeText={setAccessCode}
-            placeholder="Access Code"
+            placeholder="Código de acceso (4 dígitos)"
             placeholderTextColor={colors.muted}
             secureTextEntry
             style={globalStyles.input}
@@ -53,7 +53,11 @@ export function LoginScreen() {
           />
         </View>
         {error ? <Text style={{ color: colors.danger, textAlign: 'center' }}>{error}</Text> : null}
-        <AppButton disabled={isLoading || accessCode.length !== 4 || !email} onPress={handleLogin} title={isLoading ? 'Logging in...' : 'Login'} />
+        <AppButton
+          disabled={isLoading || accessCode.length !== 4 || !email}
+          onPress={handleLogin}
+          title={isLoading ? 'Iniciando sesión...' : 'Iniciar sesión'}
+        />
       </View>
     </KeyboardAvoidingView>
   );

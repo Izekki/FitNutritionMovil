@@ -7,7 +7,7 @@ export function LoadingState() {
   return (
     <View style={globalStyles.centered}>
       <ActivityIndicator color={colors.primary} size="large" />
-      <Text style={globalStyles.muted}>Loading...</Text>
+      <Text style={globalStyles.muted}>Cargando...</Text>
     </View>
   );
 }

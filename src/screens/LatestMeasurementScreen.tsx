@@ -23,7 +23,7 @@ export function LatestMeasurementScreen() {
       const result = await getLatestMeasurement(patient.idPaciente, token);
       setMeasurement(result);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Could not load latest measurement.');
+      setError(err instanceof Error ? err.message : 'No se pudo cargar la última medición.');
     }
   }
 
@@ -45,11 +45,11 @@ export function LatestMeasurementScreen() {
 
   return (
     <ScrollView contentContainerStyle={globalStyles.scrollContent} style={{ backgroundColor: colors.background }}>
-      <InfoRow label="Date" value={formatDate(measurement.fecha)} />
-      <InfoRow label="Weight" value={`${measurement.pesoCapturado} kg`} />
-      <InfoRow label="Height" value={`${measurement.tallaCapturada} m`} />
-      <InfoRow label="BMI" value={measurement.imcCalculado} />
-      <InfoRow label="Notes" value={measurement.observaciones} />
+      <InfoRow label="Fecha" value={formatDate(measurement.fecha)} />
+      <InfoRow label="Peso" value={`${measurement.pesoCapturado} kg`} />
+      <InfoRow label="Estatura" value={`${measurement.tallaCapturada} m`} />
+      <InfoRow label="IMC" value={measurement.imcCalculado} />
+      <InfoRow label="Observaciones" value={measurement.observaciones} />
     </ScrollView>
   );
 }

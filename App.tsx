@@ -3,6 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer, NavigatorScreenParams } from '@react-navigation/native';
 import { createNativeStackNavigator, NativeStackNavigationOptions } from '@react-navigation/native-stack';
 import { StatusBar } from 'expo-status-bar';
+import { Pressable, Text } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { AuthProvider, useAuth } from './src/context/AuthContext';
@@ -50,13 +51,14 @@ const stackOptions: NativeStackNavigationOptions = {
 function homeBackButton(navigation: any): NativeStackNavigationOptions {
   return {
     headerLeft: () => (
-      <Ionicons
-        accessibilityLabel="Back"
-        name="chevron-back"
-        size={28}
-        color={colors.text}
-        onPress={() => navigation.navigate('HomeTab')}
-      />
+      <Pressable
+        accessibilityRole="button"
+        onPress={() => (navigation.canGoBack() ? navigation.goBack() : navigation.navigate('HomeTab'))}
+        style={{ alignItems: 'center', flexDirection: 'row', gap: 4, paddingHorizontal: 4, paddingVertical: 2 }}
+      >
+        <Ionicons name="chevron-back" size={22} color={colors.text} />
+        <Text style={{ color: colors.text, fontSize: 16, fontWeight: '700' }}>Regresar</Text>
+      </Pressable>
     ),
   };
 }
@@ -72,7 +74,7 @@ function HomeStack() {
 function ProfileStack() {
   return (
     <ProfileStackNav.Navigator screenOptions={({ navigation }) => ({ ...stackOptions, ...homeBackButton(navigation) })}>
-      <ProfileStackNav.Screen name="Profile" component={ProfileScreen} options={{ title: 'Profile' }} />
+      <ProfileStackNav.Screen name="Profile" component={ProfileScreen} options={{ title: 'Perfil' }} />
     </ProfileStackNav.Navigator>
   );
 }
@@ -83,9 +85,9 @@ function AppointmentsStack() {
       <AppointmentsStackNav.Screen
         name="Appointments"
         component={AppointmentsScreen}
-        options={({ navigation }) => ({ title: 'Appointments', ...homeBackButton(navigation) })}
+        options={({ navigation }) => ({ title: 'Citas', ...homeBackButton(navigation) })}
       />
-      <AppointmentsStackNav.Screen name="AppointmentDetail" component={AppointmentDetailScreen} options={{ title: 'Appointment Detail' }} />
+      <AppointmentsStackNav.Screen name="AppointmentDetail" component={AppointmentDetailScreen} options={{ title: 'Detalle de cita' }} />
     </AppointmentsStackNav.Navigator>
   );
 }
@@ -93,10 +95,10 @@ function AppointmentsStack() {
 function DietsStack() {
   return (
     <DietsStackNav.Navigator screenOptions={stackOptions}>
-      <DietsStackNav.Screen name="Diets" component={DietsScreen} options={({ navigation }) => ({ title: 'Diets', ...homeBackButton(navigation) })} />
-      <DietsStackNav.Screen name="CurrentDiet" component={CurrentDietScreen} options={{ title: 'Current Diet' }} />
-      <DietsStackNav.Screen name="DietHistory" component={DietHistoryScreen} options={{ title: 'Diet History' }} />
-      <DietsStackNav.Screen name="DietDetail" component={DietDetailScreen} options={{ title: 'Diet Detail' }} />
+      <DietsStackNav.Screen name="Diets" component={DietsScreen} options={({ navigation }) => ({ title: 'Dietas', ...homeBackButton(navigation) })} />
+      <DietsStackNav.Screen name="CurrentDiet" component={CurrentDietScreen} options={{ title: 'Dieta actual' }} />
+      <DietsStackNav.Screen name="DietHistory" component={DietHistoryScreen} options={{ title: 'Historial de dietas' }} />
+      <DietsStackNav.Screen name="DietDetail" component={DietDetailScreen} options={{ title: 'Detalle de dieta' }} />
     </DietsStackNav.Navigator>
   );
 }
@@ -107,10 +109,10 @@ function ProgressStack() {
       <ProgressStackNav.Screen
         name="Progress"
         component={ProgressScreen}
-        options={({ navigation }) => ({ title: 'Progress', ...homeBackButton(navigation) })}
+        options={({ navigation }) => ({ title: 'Progreso', ...homeBackButton(navigation) })}
       />
-      <ProgressStackNav.Screen name="LatestMeasurement" component={LatestMeasurementScreen} options={{ title: 'Latest Measurement' }} />
-      <ProgressStackNav.Screen name="ProgressHistory" component={ProgressHistoryScreen} options={{ title: 'Progress History' }} />
+      <ProgressStackNav.Screen name="LatestMeasurement" component={LatestMeasurementScreen} options={{ title: 'Última medición' }} />
+      <ProgressStackNav.Screen name="ProgressHistory" component={ProgressHistoryScreen} options={{ title: 'Historial de progreso' }} />
     </ProgressStackNav.Navigator>
   );
 }
@@ -145,10 +147,10 @@ function AuthTabs() {
       })}
     >
       <Tab.Screen name="HomeTab" component={HomeStack} options={{ tabBarButton: () => null }} />
-      <Tab.Screen name="ProfileTab" component={ProfileStack} options={{ title: 'Profile' }} />
-      <Tab.Screen name="AppointmentsTab" component={AppointmentsStack} options={{ title: 'Appointments' }} />
-      <Tab.Screen name="DietsTab" component={DietsStack} options={{ title: 'Diets' }} />
-      <Tab.Screen name="ProgressTab" component={ProgressStack} options={{ title: 'Progress' }} />
+      <Tab.Screen name="ProfileTab" component={ProfileStack} options={{ title: 'Perfil' }} />
+      <Tab.Screen name="AppointmentsTab" component={AppointmentsStack} options={{ title: 'Citas' }} />
+      <Tab.Screen name="DietsTab" component={DietsStack} options={{ title: 'Dietas' }} />
+      <Tab.Screen name="ProgressTab" component={ProgressStack} options={{ title: 'Progreso' }} />
     </Tab.Navigator>
   );
 }

@@ -15,10 +15,10 @@ export function HomeScreen() {
         <Ionicons name="leaf-outline" size={68} color={colors.primaryDark} />
         <Text style={globalStyles.title}>Fit Nutrition</Text>
         <View style={{ gap: 12, width: '100%' }}>
-          <AppButton title="Profile" onPress={() => navigation.navigate('ProfileTab')} />
-          <AppButton title="Appointments" onPress={() => navigation.navigate('AppointmentsTab')} />
-          <AppButton title="Diets" onPress={() => navigation.navigate('DietsTab')} />
-          <AppButton title="Progress" onPress={() => navigation.navigate('ProgressTab')} />
+          <AppButton title="Perfil" onPress={() => navigation.navigate('ProfileTab')} />
+          <AppButton title="Citas" onPress={() => navigation.navigate('AppointmentsTab')} />
+          <AppButton title="Dietas" onPress={() => navigation.navigate('DietsTab')} />
+          <AppButton title="Progreso" onPress={() => navigation.navigate('ProgressTab')} />
         </View>
       </View>
     </View>

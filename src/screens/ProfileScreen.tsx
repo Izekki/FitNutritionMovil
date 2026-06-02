@@ -42,20 +42,20 @@ export function ProfileScreen() {
       </View>
 
       <View style={globalStyles.card}>
-        <InfoRow label="First Name" value={patient.nombrePaciente} />
-        <InfoRow label="Last Name" value={patient.apellidosPaciente} />
-        <InfoRow label="Gender" value={patient.genero} />
-        <InfoRow label="Date of Birth" value={patient.fechaNacimiento} />
-        <InfoRow label="Weight" value={`${patient.peso} kg`} />
-        <InfoRow label="Height" value={`${patient.estatura} m`} />
-        <InfoRow label="Size/Waist" value={patient.talla} />
-        <InfoRow label="Email" value={patient.email} />
-        <InfoRow label="Phone" value={patient.telefono} />
-        <InfoRow label="Address" value={patient.domicilio} />
-        <InfoRow label="Assigned Doctor" value={patient.medico ? `${patient.medico.nombreMedico} ${patient.medico.apellidosMedico}` : 'Not assigned'} />
+        <InfoRow label="Nombre" value={patient.nombrePaciente} />
+        <InfoRow label="Apellidos" value={patient.apellidosPaciente} />
+        <InfoRow label="Género" value={patient.genero} />
+        <InfoRow label="Fecha de nacimiento" value={patient.fechaNacimiento} />
+        <InfoRow label="Peso" value={`${patient.peso} kg`} />
+        <InfoRow label="Estatura" value={`${patient.estatura} m`} />
+        <InfoRow label="Talla" value={patient.talla} />
+        <InfoRow label="Correo electrónico" value={patient.email} />
+        <InfoRow label="Teléfono" value={patient.telefono} />
+        <InfoRow label="Domicilio" value={patient.domicilio} />
+        <InfoRow label="Médico Asignado" value={patient.medico ? `${patient.medico.nombreMedico} ${patient.medico.apellidosMedico}` : 'No asignado'} />
       </View>
 
-      <AppButton title="Edit Information" onPress={() => Alert.alert('Edit Information', 'This action is a UI placeholder.')} />
+      <AppButton title="Editar Información" onPress={() => Alert.alert('Editar Información', 'Esta acción es solo un marcador de posición de la interfaz.')} />
     </ScrollView>
   );
 }

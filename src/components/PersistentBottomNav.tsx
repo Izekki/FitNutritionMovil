@@ -14,10 +14,10 @@ const shortcuts: Array<{
   route: keyof RootStackParamList;
   icon: keyof typeof Ionicons.glyphMap;
 }> = [
-  { label: 'Profile', route: 'Profile', icon: 'person-outline' },
-  { label: 'Appointments', route: 'Appointments', icon: 'calendar-outline' },
-  { label: 'Diets', route: 'Diets', icon: 'nutrition-outline' },
-  { label: 'Progress', route: 'Progress', icon: 'trending-up-outline' },
+  { label: 'Perfil', route: 'Profile', icon: 'person-outline' },
+  { label: 'Citas', route: 'Appointments', icon: 'calendar-outline' },
+  { label: 'Dietas', route: 'Diets', icon: 'nutrition-outline' },
+  { label: 'Progreso', route: 'Progress', icon: 'trending-up-outline' },
 ];
 
 export function PersistentBottomNav({ navigationRef }: Props) {
