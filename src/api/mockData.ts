@@ -1,0 +1,123 @@
+import type { Appointment, Consultation, Diet, Patient } from '../types/models';
+
+export const mockPatient: Patient = {
+  idPaciente: 1,
+  idMedico: 1,
+  nombrePaciente: 'Ana',
+  apellidosPaciente: 'Martinez Gomez',
+  fechaNacimiento: '2000-08-15',
+  genero: 'F',
+  peso: 62.5,
+  estatura: 1.65,
+  talla: 28,
+  email: 'ana.martinez@gmail.com',
+  telefono: '2289876543',
+  domicilio: 'Coatepec, Veracruz',
+  fotografia: 'paciente1.jpg',
+  codigoAcceso: '1234',
+  medico: {
+    idMedico: 1,
+    nombreMedico: 'Carlos',
+    apellidosMedico: 'Ramirez Lopez',
+    telefono: '2281234567',
+  },
+};
+
+export const mockAppointments: Appointment[] = [
+  {
+    idCita: 1,
+    idPaciente: 1,
+    idMedico: 1,
+    fecha: '2026-06-10',
+    hora: '10:30:00',
+    estado: 'Asignada',
+    observaciones: 'Seguimiento nutricional mensual.',
+    patientName: 'Ana Martinez Gomez',
+    doctorName: 'Carlos Ramirez Lopez',
+  },
+  {
+    idCita: 2,
+    idPaciente: 1,
+    idMedico: 1,
+    fecha: '2026-05-20',
+    hora: '10:30:00',
+    estado: 'Asistida',
+    observaciones: 'Primera consulta nutricional.',
+    patientName: 'Ana Martinez Gomez',
+    doctorName: 'Carlos Ramirez Lopez',
+  },
+  {
+    idCita: 3,
+    idPaciente: 1,
+    idMedico: 1,
+    fecha: '2026-04-22',
+    hora: '09:00:00',
+    estado: 'Asistida',
+    observaciones: 'Ajuste de macronutrientes.',
+    patientName: 'Ana Martinez Gomez',
+    doctorName: 'Carlos Ramirez Lopez',
+  },
+];
+
+export const mockDiets: Diet[] = [
+  {
+    idDieta: 1,
+    nombreDieta: 'Dieta Balanceada',
+    caloriasTotales: 2200,
+    descripcion: 'Plan alimenticio balanceado para mantenimiento.',
+    estatusEdicion: 'Editable',
+    assignmentDate: '2026-05-20',
+    estimatedDuration: '4 semanas',
+    nextReviewDate: '2026-06-20',
+    notes: 'Mantener hidratacion y registrar energia diaria.',
+    foods: [
+      { idAlimento: 3, nombreAlimento: 'Manzana', porcion: '1 pieza', caloriasPorcion: 52, mealTime: 'Breakfast' },
+      { idAlimento: 1, nombreAlimento: 'Pechuga de pollo', porcion: '150g', caloriasPorcion: 247.5, mealTime: 'Lunch' },
+      { idAlimento: 2, nombreAlimento: 'Arroz blanco', porcion: '200g', caloriasPorcion: 260, mealTime: 'Lunch' },
+    ],
+  },
+  {
+    idDieta: 2,
+    nombreDieta: 'Dieta Alta en Proteina',
+    caloriasTotales: 2050,
+    descripcion: 'Plan enfocado en preservar masa muscular durante perdida gradual de grasa.',
+    estatusEdicion: 'Bloqueada',
+    assignmentDate: '2026-04-22',
+    estimatedDuration: '3 semanas',
+    nextReviewDate: '2026-05-20',
+    notes: 'Priorizar proteina magra y verduras en comidas principales.',
+    foods: [
+      { idAlimento: 1, nombreAlimento: 'Pechuga de pollo', porcion: '180g', caloriasPorcion: 297, mealTime: 'Lunch' },
+      { idAlimento: 3, nombreAlimento: 'Manzana', porcion: '1 pieza', caloriasPorcion: 52, mealTime: 'Mid-day' },
+    ],
+  },
+];
+
+export const mockConsultations: Consultation[] = [
+  {
+    idConsulta: 1,
+    idPaciente: 1,
+    idMedico: 1,
+    idCita: 1,
+    idDieta: 1,
+    fecha: '2026-05-20',
+    pesoCapturado: 62.5,
+    tallaCapturada: 28,
+    imcCalculado: 22.96,
+    observaciones: 'Paciente con buen estado general.',
+    patientHeight: 1.65,
+  },
+  {
+    idConsulta: 2,
+    idPaciente: 1,
+    idMedico: 1,
+    idCita: 3,
+    idDieta: 2,
+    fecha: '2026-04-22',
+    pesoCapturado: 63.8,
+    tallaCapturada: 29,
+    imcCalculado: 23.43,
+    observaciones: 'Buena adherencia, ajustar cenas.',
+    patientHeight: 1.65,
+  },
+];

@@ -1,0 +1,115 @@
+import { StyleSheet } from 'react-native';
+
+import { colors } from './colors';
+
+export const globalStyles = StyleSheet.create({
+  screen: {
+    flex: 1,
+    backgroundColor: colors.background,
+    padding: 20,
+  },
+  scrollContent: {
+    padding: 20,
+    paddingBottom: 120,
+  },
+  centered: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 18,
+  },
+  title: {
+    color: colors.text,
+    fontSize: 28,
+    fontWeight: '800',
+    textAlign: 'center',
+  },
+  sectionTitle: {
+    color: colors.text,
+    fontSize: 20,
+    fontWeight: '800',
+    marginBottom: 12,
+    marginTop: 8,
+  },
+  body: {
+    color: colors.text,
+    fontSize: 16,
+    lineHeight: 22,
+  },
+  muted: {
+    color: colors.muted,
+    fontSize: 14,
+  },
+  card: {
+    backgroundColor: colors.surface,
+    borderColor: colors.border,
+    borderRadius: 8,
+    borderWidth: 1,
+    padding: 16,
+    marginBottom: 12,
+  },
+  primaryButton: {
+    alignItems: 'center',
+    backgroundColor: colors.primary,
+    borderRadius: 8,
+    minHeight: 52,
+    justifyContent: 'center',
+    paddingHorizontal: 20,
+    paddingVertical: 14,
+    width: '100%',
+  },
+  secondaryButton: {
+    alignItems: 'center',
+    backgroundColor: colors.surface,
+    borderColor: colors.primary,
+    borderRadius: 8,
+    borderWidth: 1,
+    minHeight: 50,
+    justifyContent: 'center',
+    paddingHorizontal: 18,
+    paddingVertical: 12,
+    width: '100%',
+  },
+  dangerButton: {
+    alignItems: 'center',
+    backgroundColor: colors.danger,
+    borderRadius: 8,
+    minHeight: 50,
+    justifyContent: 'center',
+    paddingHorizontal: 18,
+    paddingVertical: 12,
+    width: '100%',
+  },
+  buttonText: {
+    color: colors.white,
+    fontSize: 16,
+    fontWeight: '800',
+  },
+  secondaryButtonText: {
+    color: colors.primaryDark,
+    fontSize: 16,
+    fontWeight: '800',
+  },
+  input: {
+    backgroundColor: colors.surface,
+    borderColor: colors.border,
+    borderRadius: 8,
+    borderWidth: 1,
+    color: colors.text,
+    fontSize: 16,
+    minHeight: 50,
+    paddingHorizontal: 14,
+  },
+  label: {
+    color: colors.muted,
+    fontSize: 13,
+    fontWeight: '700',
+    marginBottom: 4,
+    textTransform: 'uppercase',
+  },
+  value: {
+    color: colors.text,
+    fontSize: 16,
+    fontWeight: '600',
+  },
+});
