@@ -40,6 +40,18 @@ export async function getProfile(idUsuario: number, token?: string | null): Prom
   return { ...patient, medico: doctor };
 }
 
+export async function updatePatientProfile(
+  idPaciente: number,
+  patientData: Partial<Patient>,
+  token?: string | null,
+): Promise<Patient> {
+  return apiRequest<Patient>(`/pacientes/${idPaciente}`, {
+    method: 'PUT',
+    token,
+    body: JSON.stringify(patientData),
+  });
+}
+
 export function getDoctor(idMedico: number, token?: string | null): Promise<Doctor> {
   return apiRequest<Doctor>(`/medicos/${idMedico}`, { token });
 }

@@ -21,14 +21,14 @@ CREATE TABLE `medico`  (
   `cedulaProfesional` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL UNIQUE,
   `nombreMedico` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `apellidosMedico` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `fechaNacimiento` DATE NOT NULL,
   `contrasena` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `genero`ENUM('M','F', 'Otro') NOT NULL,
+  `fechaNacimiento` DATE NOT NULL,
+  `genero` ENUM('M','F', 'Otro') NOT NULL,
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL UNIQUE,
   `telefono` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `domicilio` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `fotografia` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL,
   PRIMARY KEY (`idMedico`) USING BTREE
-
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -41,7 +41,7 @@ CREATE TABLE `paciente`  (
   `nombrePaciente` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `apellidosPaciente` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `fechaNacimiento` DATE NOT NULL,
-  `genero`ENUM('M','F', 'Otro') NOT NULL,
+  `genero` ENUM('M','F', 'Otro') NOT NULL,
   `peso` DECIMAL(5,2) NOT NULL,
   `estatura` DECIMAL(5,2) NOT NULL,
   `talla` DECIMAL(5,2) NOT NULL,
@@ -56,17 +56,15 @@ CREATE TABLE `paciente`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Tabla adminstrador
+-- Tabla administrador
 -- ----------------------------
 DROP TABLE IF EXISTS `administrador`;
 CREATE TABLE `administrador`  (
   `idAdministrador` INT NOT NULL AUTO_INCREMENT,
   `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL UNIQUE,
-  `contrasena` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL
+  `contrasena` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `nombreAdmin` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-
   PRIMARY KEY (`idAdministrador`) USING BTREE
-
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -160,16 +158,14 @@ CREATE TABLE dietaAlimento (
 SET FOREIGN_KEY_CHECKS = 1;
 
 -- ----------------------------
--- Insert de datos de prueba HASHEAR LAS CONTRASEÑAS AUN SI SON DATOS DE PRUEBA PORFAVOR HASHEAR 'admin123' Y 'medico123' PARA QUE NO SEAN CONTRASEÑAS PLANAS EN LA BASE DE DATOS DE PRUEBA 
+-- Insert
 -- ----------------------------
 
-
-
 INSERT INTO administrador (email, contrasena, nombreAdmin) 
-VALUES ('miguellmrjilo@gmail.com', 'admin123', 'Teo');
+VALUES ('miguellmrjilo@gmail.com', SHA2('admin123',256), 'Teo');
 
-INSERT INTO medico (numPersonal, cedulaProfesional, nombreMedico, apellidosMedico, fechaNacimiento, contrasena, genero, telefono, domicilio, fotografia) 
-VALUES (1001, 'CED123456', 'Carlos', 'Ramirez Lopez', '1980-05-10', 'medico123', 'M', '2281234567', 'Xalapa, Veracruz', 'medico1.jpg');
+INSERT INTO medico (numPersonal, cedulaProfesional, nombreMedico, apellidosMedico, contrasena, fechaNacimiento, genero, email, telefono, domicilio, fotografia) 
+VALUES (1001, 'CED123456', 'Carlos', 'Ramirez Lopez', SHA2('medico123',256), '1980-05-10', 'M', 'carlos.ramirez@fitnutrition.com', '2281234567', 'Xalapa, Veracruz', 'medico1.jpg');
 
 INSERT INTO paciente (idMedico, nombrePaciente, apellidosPaciente, fechaNacimiento, genero, peso, estatura, talla, email, telefono, domicilio, fotografia, codigoAcceso) 
 VALUES (1, 'Ana', 'Martinez Gomez', '2000-08-15', 'F', 62.50, 1.65, 28.00, 'ana.martinez@gmail.com', '2289876543', 'Coatepec, Veracruz', 'paciente1.jpg', '1234');

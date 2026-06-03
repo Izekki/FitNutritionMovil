@@ -68,6 +68,61 @@ Esta guía contiene la lista de todos los endpoints de la API de `fitNutrition` 
     }
     ```
 
+### C. Cerrar Sesión
+*   **URL:** `POST /api/autenticacion/cerrar-sesion`
+*   **Descripción:** Finaliza el estado de autenticación de forma lógica.
+*   **Respuesta Exitosa (HTTP 200 OK):**
+    ```json
+    {
+      "error": false,
+      "mensaje": "Sesión cerrada exitosamente"
+    }
+    ```
+
+### D. Cambiar Contraseña / Código de Acceso
+*   **URL:** `POST /api/autenticacion/cambiar-contrasena`
+*   **Cuerpo de la Solicitud (Médico):**
+    ```json
+    {
+      "id": 1,
+      "rol": "medico",
+      "contrasenaActual": "medico123",
+      "contrasenaNueva": "medicoNueva123"
+    }
+    ```
+*   **Cuerpo de la Solicitud (Administrador):**
+    ```json
+    {
+      "id": 1,
+      "rol": "administrador",
+      "contrasenaActual": "admin123",
+      "contrasenaNueva": "adminNueva123"
+    }
+    ```
+*   **Cuerpo de la Solicitud (Paciente):**
+    ```json
+    {
+      "id": 1,
+      "rol": "paciente",
+      "contrasenaActual": "1234",
+      "contrasenaNueva": "5678"
+    }
+    ```
+*   **Respuesta Exitosa (HTTP 200 OK):**
+    ```json
+    {
+      "error": false,
+      "mensaje": "Contraseña cambiada exitosamente"
+    }
+    ```
+*   **Respuesta de Error (HTTP 200 OK o 400 Bad Request):**
+    ```json
+    {
+      "error": true,
+      "mensaje": "La contraseña actual es incorrecta"
+    }
+    ```
+
 ---
 
 ## 2. Endpoints CRUD por Rol
@@ -286,3 +341,41 @@ Esta guía contiene la lista de todos los endpoints de la API de `fitNutrition` 
         ```
 *   **PUT `/api/dieta-alimentos/{id}`**: Actualizar asociación.
 *   **DELETE `/api/dieta-alimentos/{id}`**: Eliminar asociación.
+
+---
+
+## 7. Carga y Visualización de Imágenes (`/uploads`)
+
+> [!NOTE]
+> Este módulo dinámico permite subir y servir imágenes de perfil para médicos y pacientes, almacenándolas en el sistema de archivos del servidor (`C:/fitNutrition/uploads/`) y guardando únicamente el nombre del archivo generado en la columna `fotografia` de la base de datos.
+
+### A. Subir Fotografía (Médico o Paciente)
+*   **URL:** `POST /uploads/upload`
+*   **Content-Type:** `multipart/form-data`
+*   **Parámetros de la Solicitud (Form-Data):**
+    *   `file`: Archivo binario de la imagen (JPEG/PNG).
+    *   `entityType`: Tipo de entidad (`medico` o `paciente`).
+    *   `id`: ID del médico (`idMedico`) o del paciente (`idPaciente`).
+*   **Respuesta Exitosa (HTTP 200 OK):**
+    ```json
+    {
+      "error": false,
+      "mensaje": "Fotografía guardada exitosamente",
+      "fileName": "paciente_1_1717374000.jpg"
+    }
+    ```
+*   **Respuesta de Error (HTTP 400 / 500):**
+    ```json
+    {
+      "error": true,
+      "mensaje": "Formato de archivo no soportado. Debe ser JPG, JPEG o PNG"
+    }
+    ```
+
+### B. Visualizar/Servir Imagen (Recurso Estático)
+*   **URL:** `GET /uploads/ver/{fileName}`
+*   **Descripción:** Retorna el flujo binario directo de la imagen almacenada. Ideal para cargarse en etiquetas `<Image>` de React Native o componentes de JavaFX.
+*   **Ejemplo de URL:** `http://192.168.3.8:8084/FitNutrition/uploads/ver/paciente_1_1717374000.jpg`
+*   **Respuesta Exitosa (HTTP 200 OK):** Flujo de bytes con cabecera `Content-Type: image/jpeg` o `image/png`.
+*   **Respuesta de Error (HTTP 404 Not Found):** Si el archivo no existe.
+
