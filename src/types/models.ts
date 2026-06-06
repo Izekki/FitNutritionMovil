@@ -29,12 +29,14 @@ export type Appointment = {
   idCita: number;
   idPaciente: number;
   idMedico: number;
+  idMedicoAnterior?: number | null;
   fecha: string;
   hora: string;
   estado: AppointmentStatus;
   observaciones?: string;
-  patientName: string;
-  doctorName: string;
+  patientName?: string;
+  doctorName?: string;
+  previousDoctorName?: string;
 };
 
 export type FoodItem = {

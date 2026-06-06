@@ -7,6 +7,15 @@ function toNumber(value: unknown): number {
   return typeof value === 'number' ? value : Number(value ?? 0);
 }
 
+function isValidDoctorId(value: unknown): value is number {
+  const id = Number(value);
+  return Number.isFinite(id) && id > 0;
+}
+
+function formatDoctorName(doctor: Doctor): string {
+  return `${doctor.nombreMedico} ${doctor.apellidosMedico}`.trim();
+}
+
 function normalizeLoginResponse(payload: any): LoginResponse {
   if (payload?.error) {
     throw new Error(payload?.mensaje ?? 'Access denied.');
@@ -58,7 +67,50 @@ export function getDoctor(idMedico: number, token?: string | null): Promise<Doct
 
 export async function getAppointments(idPaciente: number, token?: string | null): Promise<Appointment[]> {
   const payload = await apiRequest<Appointment[] | { data?: Appointment[]; items?: Appointment[]; rows?: Appointment[] }>('/citas', { token });
-  return unwrapList(payload).filter((appointment) => Number(appointment.idPaciente) === Number(idPaciente));
+  const patientAppointments = unwrapList(payload).filter((appointment) => Number(appointment.idPaciente) === Number(idPaciente));
+
+  const uniqueDoctorIds = Array.from(
+    new Set(
+      patientAppointments.flatMap((appointment) => {
+        const ids: number[] = [];
+
+        if (isValidDoctorId(appointment.idMedico)) {
+          ids.push(Number(appointment.idMedico));
+        }
+
+        if (isValidDoctorId(appointment.idMedicoAnterior)) {
+          ids.push(Number(appointment.idMedicoAnterior));
+        }
+
+        return ids;
+      }),
+    ),
+  );
+
+  const doctorEntries = await Promise.all(
+    uniqueDoctorIds.map(async (doctorId) => {
+      try {
+        const doctor = await getDoctor(doctorId, token);
+        return [doctorId, formatDoctorName(doctor)] as const;
+      } catch {
+        return [doctorId, `Médico #${doctorId}`] as const;
+      }
+    }),
+  );
+
+  const doctorNameById = new Map<number, string>(doctorEntries);
+
+  return patientAppointments.map((appointment) => {
+    const currentDoctorId = Number(appointment.idMedico);
+    const previousDoctorId = appointment.idMedicoAnterior == null ? null : Number(appointment.idMedicoAnterior);
+    const hasReassignment = previousDoctorId != null && previousDoctorId !== currentDoctorId;
+
+    return {
+      ...appointment,
+      doctorName: appointment.doctorName ?? doctorNameById.get(currentDoctorId),
+      previousDoctorName: hasReassignment ? doctorNameById.get(previousDoctorId) : undefined,
+    };
+  });
 }
 
 export async function getAppointmentById(id: number, token?: string | null): Promise<Appointment> {

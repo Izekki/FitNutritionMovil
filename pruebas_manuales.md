@@ -195,6 +195,18 @@ Esta guía contiene la lista de todos los endpoints de la API de `fitNutrition` 
         ```
 *   **PUT `/api/medicos/{id}`**: Actualizar.
 *   **DELETE `/api/medicos/{id}`**: Eliminar.
+    *   > [!IMPORTANT]
+        > **Regla de Validación**: Este endpoint de baja lógica fallará arrojando un error controlado si el médico aún posee pacientes activos asignados.
+        > *Respuesta de Error (HTTP 200 OK con bandera de error):*
+        > ```json
+        > {
+        >   "error": true,
+        >   "mensaje": "No se puede dar de baja al médico porque aún tiene pacientes activos asignados. Reasígnelos primero."
+        > }
+        > ```
+*   **GET `/api/medicos/buscar`**: Búsqueda filtrada de médicos.
+    *   *Parámetros Opcionales (QueryParam):* `nombre`, `numPersonal`, `cedulaProfesional`, `estatus`.
+    *   *Ejemplo:* `GET /api/medicos/buscar?nombre=Laura`
 
 ### C. Pacientes (`/api/pacientes`)
 *   **GET `/api/pacientes`**: Obtener todos.
@@ -240,6 +252,27 @@ Esta guía contiene la lista de todos los endpoints de la API de `fitNutrition` 
         ```
 *   **PUT `/api/pacientes/{id}`**: Actualizar.
 *   **DELETE `/api/pacientes/{id}`**: Eliminar.
+*   **PUT `/api/pacientes/{id}/perfil-movil`**: Actualizar perfil desde el móvil (restringe cambiar `idMedico` y `estatus`, ignorándolos y preservándolos en el servidor).
+    *   *Request Body:*
+        ```json
+        {
+          "nombrePaciente": "Pedro Modificado",
+          "apellidosPaciente": "Ortiz Ruiz",
+          "fechaNacimiento": "1995-03-12",
+          "genero": "M",
+          "peso": 74.50,
+          "estatura": 1.78,
+          "talla": 32.00,
+          "email": "pedro.ortiz@gmail.com",
+          "telefono": "2285551234",
+          "domicilio": "Nuevo Domicilio, Xalapa",
+          "fotografia": "paciente1.jpg",
+          "codigoAcceso": "5678"
+        }
+        ```
+*   **GET `/api/pacientes/buscar`**: Búsqueda filtrada de pacientes.
+    *   *Parámetros Opcionales (QueryParam):* `nombre`, `email`, `idMedico`, `estatus`.
+    *   *Ejemplo:* `GET /api/pacientes/buscar?nombre=Pedro&idMedico=1`
 
 ---
 
@@ -278,6 +311,9 @@ Esta guía contiene la lista de todos los endpoints de la API de `fitNutrition` 
         ```
 *   **PUT `/api/catalogos/alimentos/{id}`**: Actualizar alimento.
 *   **DELETE `/api/catalogos/alimentos/{id}`**: Eliminar alimento.
+*   **GET `/api/catalogos/alimentos/buscar`**: Buscar alimento por nombre.
+    *   *Parámetros Opcionales (QueryParam):* `nombre`.
+    *   *Ejemplo:* `GET /api/catalogos/alimentos/buscar?nombre=Pechuga`
 
 ---
 
@@ -297,7 +333,43 @@ Esta guía contiene la lista de todos los endpoints de la API de `fitNutrition` 
         }
         ```
 *   **PUT `/api/citas/{id}`**: Actualizar cita.
-*   **DELETE `/api/citas/{id}`**: Eliminar cita.
+*   **DELETE `/api/citas/{id}`**: Eliminar cita (Física).
+*   **PUT `/api/citas/{id}/cancelar`**: Cancelación de cita (Lógica con validación de 1 hora y motivo).
+    *   *Request Body:*
+        ```json
+        {
+          "motivo": "Falta de transporte"
+        }
+        ```
+    *   *Respuesta Exitosa (HTTP 200 OK):*
+        ```json
+        {
+          "error": false,
+          "mensaje": "Cita cancelada exitosamente",
+          "datos": {
+            "idCita": 1,
+            "idPaciente": 1,
+            "idMedico": 1,
+            "fecha": "2026-06-15",
+            "hora": "11:00:00",
+            "estado": "Cancelada",
+            "observaciones": "Control mensual | Cancelada por el paciente. Motivo: Falta de transporte"
+          }
+        }
+        ```
+    *   *Respuesta de Error por tiempo (HTTP 200 OK):*
+        ```json
+        {
+          "error": true,
+          "mensaje": "No se puede cancelar la cita. Las cancelaciones deben realizarse al menos con 1 hora de anticipación.",
+          "datos": null
+        }
+        ```
+*   **GET `/api/citas/paciente/{idPaciente}`**: Listar historial de citas de un paciente.
+    *   *Ejemplo:* `GET /api/citas/paciente/1`
+*   **GET `/api/citas/buscar`**: Búsqueda filtrada de citas.
+    *   *Parámetros Opcionales (QueryParam):* `fecha`, `idPaciente`, `idMedico`, `estado`.
+    *   *Ejemplo:* `GET /api/citas/buscar?idPaciente=1&fecha=2026-06-15`
 
 ---
 
@@ -321,6 +393,13 @@ Esta guía contiene la lista de todos los endpoints de la API de `fitNutrition` 
         ```
 *   **PUT `/api/consultas/{id}`**: Actualizar consulta.
 *   **DELETE `/api/consultas/{id}`**: Eliminar consulta.
+*   **GET `/api/consultas/paciente/{idPaciente}`**: Listar historial de consultas y progresos de un paciente (permite ver peso, talla, IMC e historial de dietas).
+    *   *Ejemplo:* `GET /api/consultas/paciente/1`
+*   **GET `/api/consultas/paciente/{idPaciente}/ultima`**: Obtener última medición/progreso de un paciente.
+    *   *Ejemplo:* `GET /api/consultas/paciente/1/ultima`
+*   **GET `/api/consultas/buscar`**: Búsqueda filtrada de consultas.
+    *   *Parámetros Opcionales (QueryParam):* `idPaciente`, `idMedico`, `fecha`.
+    *   *Ejemplo:* `GET /api/consultas/buscar?idPaciente=1`
 
 ---
 
@@ -329,14 +408,15 @@ Esta guía contiene la lista de todos los endpoints de la API de `fitNutrition` 
 *   **GET `/api/dieta-alimentos/{id}`**: Obtener asociación por ID.
 *   **GET `/api/dieta-alimentos/dieta/{idDieta}`**: Obtener alimentos asociados a una dieta.
 *   **GET `/api/dieta-alimentos/alimento/{idAlimento}`**: Obtener dietas asociadas a un alimento.
-*   **POST `/api/dieta-alimentos`**: Asociar alimento a dieta.
+*   **POST `/api/dieta-alimentos`**: Asociar alimento a dieta (ahora requiere segmentación por tiempo de comida).
     *   *Request Body:*
         ```json
         {
           "idDieta": 1,
           "idAlimento": 2,
           "porcion": "150g",
-          "caloriasPorcion": 195.0
+          "caloriasPorcion": 195.0,
+          "tiempoComida": "Desayuno"
         }
         ```
 *   **PUT `/api/dieta-alimentos/{id}`**: Actualizar asociación.

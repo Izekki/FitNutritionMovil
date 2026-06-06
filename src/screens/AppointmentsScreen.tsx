@@ -61,7 +61,11 @@ export function AppointmentsScreen({ navigation }: Props) {
   });
   const history = filteredAppointments.filter((appointment) => !scheduled.includes(appointment));
 
-  function renderCard(appointment: Appointment) {
+  function renderCard(appointment: Appointment, inHistory = false) {
+    const previousDoctorId = appointment.idMedicoAnterior == null ? null : Number(appointment.idMedicoAnterior);
+    const hasPreviousDoctor = previousDoctorId != null && previousDoctorId !== Number(appointment.idMedico);
+    const currentDoctorName = appointment.doctorName ?? patient?.medico?.nombreMedico ?? 'Médico';
+
     return (
       <Pressable
         key={appointment.idCita}
@@ -69,7 +73,15 @@ export function AppointmentsScreen({ navigation }: Props) {
         style={({ pressed }) => [globalStyles.card, pressed && { opacity: 0.76 }]}
       >
         <Text style={globalStyles.value}>{formatDate(appointment.fecha)} a las {formatTime(appointment.hora)}</Text>
-        <Text style={globalStyles.muted}>{appointment.estado} con {appointment.doctorName ?? patient?.medico?.nombreMedico ?? 'Médico'}</Text>
+        <Text style={globalStyles.muted}>{appointment.estado}</Text>
+        {inHistory && hasPreviousDoctor ? (
+          <>
+            <Text style={globalStyles.muted}>Médico Anterior: {appointment.previousDoctorName ?? `Médico #${previousDoctorId}`}</Text>
+            <Text style={globalStyles.muted}>Médico Asignado: {currentDoctorName}</Text>
+          </>
+        ) : (
+          <Text style={globalStyles.muted}>Médico Asignado: {currentDoctorName}</Text>
+        )}
       </Pressable>
     );
   }
@@ -87,9 +99,9 @@ export function AppointmentsScreen({ navigation }: Props) {
         />
       </View>
       <Text style={globalStyles.sectionTitle}>Citas programadas</Text>
-      {scheduled.length ? scheduled.map(renderCard) : <Text style={globalStyles.muted}>No hay citas programadas.</Text>}
+      {scheduled.length ? scheduled.map((appointment) => renderCard(appointment, false)) : <Text style={globalStyles.muted}>No hay citas programadas.</Text>}
       <Text style={globalStyles.sectionTitle}>Historial de citas</Text>
-      {history.length ? history.map(renderCard) : <Text style={globalStyles.muted}>No hay historial de citas.</Text>}
+      {history.length ? history.map((appointment) => renderCard(appointment, true)) : <Text style={globalStyles.muted}>No hay historial de citas.</Text>}
     </ScrollView>
   );
 }
